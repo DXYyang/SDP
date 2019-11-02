@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+
+<project name="misc" default="default">
+
+  <!-- TODO: add javacc capability for PrecedenceQueryParser -->
+
+  <description>
+    Miscellaneous Lucene extensions
+  </description>
+
+  <import file="../contrib-build.xml"/>
+</project>

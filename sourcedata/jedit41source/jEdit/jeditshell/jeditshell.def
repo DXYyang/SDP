@@ -1,0 +1,11 @@
+; jeditshell.def : Declares the module parameters.
+
+; $Id: jeditshell.def,v 1.1.1.1 2001/07/03 13:14:01 jgellene Exp $
+
+LIBRARY      "jeshlstb.DLL"
+
+EXPORTS
+	DllCanUnloadNow     @1 PRIVATE
+	DllGetClassObject   @2 PRIVATE
+	DllRegisterServer   @3 PRIVATE
+	DllUnregisterServer	@4 PRIVATE

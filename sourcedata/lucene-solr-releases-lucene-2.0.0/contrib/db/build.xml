@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<project name="db" default="default">
+
+  <description>
+    Lucene DB integration
+      - bdb:    using the Java interface of C Berkeley DB
+      - bdb-je: using Berkeley DB Java Edition
+  </description>
+
+  <target name="bdb">
+    <ant dir="bdb" />
+  </target>
+
+  <target name="bdb-je">
+    <ant dir="bdb-je" />
+  </target>
+
+  <target name="default" depends="bdb,bdb-je" />
+
+  <target name="clean">
+    <ant dir="bdb" target="clean" />
+    <ant dir="bdb-je" target="clean" />
+  </target>
+
+  <target name="test">
+    <ant dir="bdb" target="test" />
+    <ant dir="bdb-je" target="test" />
+  </target>
+
+</project>

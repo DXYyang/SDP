@@ -1,0 +1,231 @@
+//Microsoft Developer Studio generated resource script.
+//
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include "afxres.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// English (U.S.) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+#ifdef _WIN32
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+#pragma code_page(1252)
+#endif //_WIN32
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "#include ""afxres.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+
+#ifndef _MAC
+/////////////////////////////////////////////////////////////////////////////
+//
+// Version
+//
+
+VS_VERSION_INFO VERSIONINFO
+ FILEVERSION 4,0,4,0
+ PRODUCTVERSION 4,0,3,0
+ FILEFLAGSMASK 0x3fL
+#ifdef _DEBUG
+ FILEFLAGS 0x21L
+#else
+ FILEFLAGS 0x20L
+#endif
+ FILEOS 0x4L
+ FILETYPE 0x1L
+ FILESUBTYPE 0x0L
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "040904b0"
+        BEGIN
+            VALUE "Comments", "\0"
+            VALUE "CompanyName", "\0"
+            VALUE "FileDescription", "jEdit\0"
+            VALUE "FileVersion", "4, 0, 4, 0\0"
+            VALUE "InternalName", "jeditinit\0"
+            VALUE "LegalCopyright", "Copyright 2002 John Gellene\0"
+            VALUE "LegalTrademarks", "\0"
+            VALUE "OLESelfRegister", "\0"
+            VALUE "OriginalFilename", "jedit.exe\0"
+            VALUE "PrivateBuild", "\0"
+            VALUE "ProductName", "jEditLauncher launcher module\0"
+            VALUE "ProductVersion", "4, 0, 3, 0\0"
+            VALUE "SpecialBuild", "\0"
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x409, 1200
+    END
+END
+
+#endif    // !_MAC
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_ABOUTBOX_4_0 DIALOG DISCARDABLE  0, 0, 314, 119
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "About jEdit.exe"
+FONT 8, "MS Sans Serif"
+BEGIN
+    ICON            IDI_JEDIT,IDC_STATIC,8,21,21,20
+    LTEXT           "jEdit.exe - part of the jEditLauncher package for Windows",
+                    IDC_STATIC,40,4,190,8,SS_NOPREFIX
+    LTEXT           "An application to run and set command line parameters for the jEdit text editor",
+                    IDC_STATIC,40,16,252,11
+    LTEXT           "jedit [/h | /p | /u | files....]|[/1 file]",IDC_STATIC,
+                    40,29,125,8
+    DEFPUSHBUTTON   "OK",IDOK,249,97,50,14,WS_GROUP
+    LTEXT           "/h    display this summary\n/p    set command line parameters for running jEdit\n/u    uninstall jEditLauncher (but not jEdit)\nfiles  one or more file to be opened by jEdit (wild card characters allowed) ",
+                    IDC_STATIC,44,37,251,33
+    LTEXT           "/1    interprets the rest of the command line as a single file, regardless of whitespace",
+                    IDC_STATIC,44,69,264,8
+    LTEXT           "Without parameters, launches jEdit\nRequires installation of jEditLauncher COM component.\n\nVersion 4.0, Copyright 2002 John Gellene",
+                    IDC_STATIC,39,81,175,33
+END
+
+IDD_JEDITINIT_DIALOG DIALOGEX 0, 0, 266, 219
+STYLE DS_MODALFRAME | WS_MINIMIZEBOX | WS_POPUP | WS_VISIBLE | WS_CAPTION | 
+    WS_SYSMENU
+EXSTYLE WS_EX_APPWINDOW
+CAPTION "jEditLauncher - set jEdit parameters"
+FONT 8, "MS Sans Serif", 0, 0, 0x1
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,209,167,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,209,189,50,14
+    LTEXT           "Location of Java application loader",IDC_STATIC,7,7,111,
+                    8
+    EDITTEXT        IDC_EDIT_JAVA_EXEC,7,19,194,12,ES_AUTOHSCROLL
+    PUSHBUTTON      "Choose",IDC_BUTTON_JAVA_EXEC,209,19,50,12
+    CHECKBOX        "batch file",IDC_CHECK_BATCH,148,5,50,12,NOT WS_TABSTOP
+    LTEXT           "Command line options for Java application loader",
+                    IDC_STATIC,7,37,154,8
+    COMBOBOX        IDC_COMBO_JAVA_OPTIONS,7,49,194,51,CBS_DROPDOWN | 
+                    CBS_AUTOHSCROLL | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Location of jEdit target",IDC_STATIC,7,67,91,8
+    EDITTEXT        IDC_EDIT_JEDIT_TARGET,7,79,194,12,ES_AUTOHSCROLL
+    PUSHBUTTON      "Choose",IDC_BUTTON_JEDIT_TARGET,209,79,50,12
+    LTEXT           "Options for jEdit",IDC_STATIC,7,97,91,8
+    EDITTEXT        IDC_EDIT_JEDIT_OPTIONS,7,109,194,12,ES_AUTOHSCROLL
+    CHECKBOX        "-jar option",IDC_CHECK_JAR,211,49,50,12,NOT WS_TABSTOP
+    LTEXT           "Working directory",IDC_STATIC,7,127,91,8
+    EDITTEXT        IDC_EDIT_JEDIT_WORKING_DIR,7,139,194,12,ES_AUTOHSCROLL
+    PUSHBUTTON      "Choose",IDC_BUTTON_JEDIT_WORKINGDIR,209,139,50,12
+    GROUPBOX        "Complete command line",IDC_STATIC,7,158,194,49
+    EDITTEXT        IDC_EDIT_CMDLINE,11,169,187,30,ES_MULTILINE | 
+                    ES_AUTOVSCROLL | ES_READONLY | WS_VSCROLL | NOT 
+                    WS_TABSTOP
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDI_JEDIT               ICON    DISCARDABLE     "jedit.ico"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// String Table
+//
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    IDP_OLE_INIT_FAILED     "OLE initialization failed.  Make sure that the OLE libraries are the correct version."
+    IDS_ABOUTBOX            "&About jEdit.exe..."
+    IDS_ERR_CAPTION         "jEdit - error in command line parameters"
+    IDS_ERR_EMPTY_EXEC      "Please supply a file name for the Java command loader."
+    IDS_ERR_NOFILE          "The file %s does not exist. Please select again."
+    IDS_ERR_BADEXEC         "The name %s does not refer to an executable file.  Please select again."
+    IDS_ERR_BADJAR          "The name %s does not refer to the jEdit Java archive file.  Please select again."
+    IDS_ERR_BADDIR          "The name %s is not a directory. Please select again."
+    IDS_MSG_RESTART         "You must restart jEdit for any new command line parameters to take effect."
+    IDS_MSG_INSTALLQUERY    "The jEditLauncher component does not appear to be installed. Do you wish to install it now?"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    IDS_ERR_NEEDINSTALL     "The jEditLauncher component must be installed to use this application.\nYou may use jEdit without jEditLauncher, however."
+    IDS_MSG_SEARCHQUERY     "The system cannot find the jEditLauncher component.  Do you want to search for it yourself?"
+    IDS_ERR_COM_FAILURE     "Application failure: could not initialize COM facilities."
+    IDS_MSG_NEXTTIME        "You will be prompted for command line parameters the next time you run jEditLauncher"
+    IDS_MSG_CONFIRM_NOSERVER 
+                            "You have included ""-noserver"" among the jEdit command line options.  This will disable jEditLauncher;s ability to open files.  Do you wish to change this setting?"
+    IDS_ERR_JAVA_NOT_FOUND  "There is no Java application loader in the directory %s.  Would you like to select another?"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    IDS_MSG_USAGE_4_0       "jedit.exe: a utility to launch the jEdit text editor\n\njedit [/h | /p | /i  java_home_dir | files....]\n\t/h    display this summary\n\t/p    set command line parameters for running jEdit\n\t/i    install jEditLauncher COM component\n\t      java_home_dir is directory of Java interpreter (required)\n\tfiles  one or more file to be opened by jEdit\n\twild card characters * and ? are expanded in\n\tnames of files (not path names)\nWithout parameters, launches jEdit without loading additional files.\nRequires installation of jEditLauncher COM component.\nVersion 3.2.2, Copyright 2001 John Gellene"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    IDS_COMBO_1             "-jar"
+    IDS_COMBO_2             "-mx32m -jar"
+    IDS_COMBO_3             "-mx64m -jar"
+    IDS_COMBO_4             "-classpath %CLASSPATH%;""C:\\Program Files\\jEdit\\jedit.jar"""
+    IDS_COMBO_5             "-mx32m -classpath %CLASSPATH%;""C:\\Program Files\\jEdit\\jedit.jar"""
+    IDS_COMBO_6             "-mx64m -classpath %CLASSPATH%;""C:\\Program Files\\jEdit\\jedit.jar"""
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    IDS_REG_PARAMS_KEY_3_2  "Software\\www.jedit.org\\jEditLauncher\\3.2"
+    IDS_REG_PARAMS_KEY_4_0  "Software\\www.jedit.org\\jEditLauncher\\4.0"
+END
+
+#endif    // English (U.S.) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+

@@ -1,0 +1,98 @@
+# Microsoft Developer Studio Generated Dependency File, included by jeditlauncher.mak
+
+.\FileList.cpp : \
+	"..\ltslog\ltslog.h"\
+	".\FileList.h"\
+	".\jeditlauncher.h"\
+	".\JELauncher.h"\
+	".\LauncherLog.h"\
+	".\RegistryParser.h"\
+	".\ScriptServer.h"\
+	".\ScriptWriter.h"\
+	".\ServConn.h"\
+	"h:\program files\microsoft platform sdk\include\guiddef.h"\
+	
+
+.\jeditlauncher.cpp : \
+	".\jeditlauncher.h"\
+	".\jeditlauncher_i.c"\
+	".\JELauncher.h"\
+	".\RegistryParser.h"\
+	".\ScriptServer.h"\
+	".\ServConn.h"\
+	"h:\program files\microsoft platform sdk\include\guiddef.h"\
+	
+
+.\jeditlauncher.rc : \
+	".\jeditlau.bin"\
+	".\jeditlauncher.rgs"\
+	".\jeditlauncher.tlb"\
+	
+
+.\JELauncher.cpp : \
+	"..\ltslog\ltslog.h"\
+	".\FileList.h"\
+	".\jeditlauncher.h"\
+	".\JELauncher.h"\
+	".\LauncherLog.h"\
+	".\RegistryParser.h"\
+	".\ScriptServer.h"\
+	".\ScriptWriter.h"\
+	".\ServConn.h"\
+	"h:\program files\microsoft platform sdk\include\guiddef.h"\
+	
+
+.\LauncherLog.cpp : \
+	"..\ltslog\ltslog.h"\
+	".\LauncherLog.h"\
+	"h:\program files\microsoft platform sdk\include\guiddef.h"\
+	
+
+.\RegistryParser.cpp : \
+	".\jeditlauncher.h"\
+	".\JELauncher.h"\
+	".\RegistryParser.h"\
+	".\ScriptServer.h"\
+	".\ServConn.h"\
+	"h:\program files\microsoft platform sdk\include\guiddef.h"\
+	
+
+.\ScriptServer.cpp : \
+	".\RegistryParser.h"\
+	".\ScriptServer.h"\
+	".\ServConn.h"\
+	"h:\program files\microsoft platform sdk\include\guiddef.h"\
+	
+
+.\ScriptWriter.cpp : \
+	"..\ltslog\ltslog.h"\
+	".\jeditlauncher.h"\
+	".\JELauncher.h"\
+	".\LauncherLog.h"\
+	".\RegistryParser.h"\
+	".\ScriptServer.h"\
+	".\ScriptWriter.h"\
+	".\ServConn.h"\
+	"h:\program files\microsoft platform sdk\include\guiddef.h"\
+	"h:\program files\microsoft platform sdk\include\shldisp.h"\
+	
+
+.\ServConn.cpp : \
+	"..\ltslog\ltslog.h"\
+	".\jeditlauncher.h"\
+	".\JELauncher.h"\
+	".\LauncherLog.h"\
+	".\RegistryParser.h"\
+	".\ScriptServer.h"\
+	".\ServConn.h"\
+	"h:\program files\microsoft platform sdk\include\guiddef.h"\
+	
+
+.\StdAfx.cpp : \
+	".\StdAfx.h"\
+	"h:\program files\microsoft platform sdk\include\basetsd.h"\
+	"h:\program files\microsoft platform sdk\include\guiddef.h"\
+	"h:\program files\microsoft platform sdk\include\propidl.h"\
+	"h:\program files\microsoft platform sdk\include\tvout.h"\
+	"h:\program files\microsoft platform sdk\include\winefs.h"\
+	

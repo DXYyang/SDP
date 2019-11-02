@@ -1,0 +1,27 @@
+HKCR
+{
+	NoRemove CLSID
+	{
+		ForceRemove {2FA37216-6AFA-4299-9203-8A962384AA7E} = s 'JEditCtxMenu Class'
+		{
+			InprocServer32 = s '%MODULE%'
+			{
+				val ThreadingModel = s 'both'
+				val jEditVersion = s '3.2'
+			}
+		}
+	}
+	NoRemove '*'
+	{
+		NoRemove shellex
+		{
+			NoRemove ContextMenuHandlers
+			{
+				ForceRemove 'Open with jEdit' = s '{2FA37216-6AFA-4299-9203-8A962384AA7E}'
+				{
+					val jEditVersion = s '3.2'
+				}
+			}
+		}
+	}
+}

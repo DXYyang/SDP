@@ -1,0 +1,120 @@
+// jeditlauncher.idl : IDL source for jeditlauncher.dll
+//
+
+// This file will be processed by the MIDL tool to
+// produce the type library (jeditlauncher.tlb) and marshalling code.
+
+import "oaidl.idl";
+import "ocidl.idl";
+	[
+		object,
+		uuid(E53269FA-8A5C-42B0-B3BC-82254F4FCED4),
+		dual,
+		helpstring("IJEditLauncher Interface"),
+		pointer_default(unique)
+	]
+	interface IJEditLauncher : IDispatch
+	{
+		typedef [unique] IJEditLauncher * LPJEDITLAUNCHER;
+
+		[id(1), propget] HRESULT ServerKey (
+					[out, retval] ULONG * pKey
+			);
+
+		[id(2), propget] HRESULT ServerPort (
+					[out, retval] ULONG * pPort
+		    );
+
+		[id(3)] HRESULT OpenFile (
+					[in] BSTR bstrFileName
+			);
+
+		[id(4)] HRESULT OpenFiles (
+					[in] VARIANTARG fileNames
+			);
+
+		[id(5)] HRESULT Launch();
+
+		[id(6)] HRESULT RunScript (
+					[in] BSTR bstrFileName
+			);
+
+		[id(7)] HRESULT EvalScript (
+					[in] BSTR bstrScript
+			);
+
+		[id(8)] HRESULT RunDiff (
+					[in] BSTR bstrFileBase,
+					[in] BSTR bstrFileChanged
+			);
+// taken out of interface becasue
+// custom marshalling is required for
+// out-of-process servers
+/*
+		HRESULT OpenFile_Char(
+					[in] CHAR* szFileName
+			);
+
+		HRESULT OpenFile_WChar(
+					[in] WCHAR* pszFileName
+			);
+
+		HRESULT OpenFiles_Char(
+					[in] CHAR** argv, [in] int numargs
+			);
+
+		HRESULT OpenFiles_WChar(
+					[in] WCHAR** argv, [in] int numargs
+			);
+
+		HRESULT RunScript_Char(
+					[in] CHAR* pszFileName
+			);
+
+		HRESULT RunScript_WChar(
+					[in] WCHAR* pwszFileName
+			);
+
+		HRESULT EvalScript_Char(
+					[in] CHAR* pszScript
+			);
+
+		HRESULT EvalScript_WChar(
+					[in] WCHAR* pwszScript
+			);
+
+		HRESULT RunDiff_Char(
+					[in] CHAR* pszFileBase,
+					[in] CHAR* pszFileChanged
+			);
+
+		HRESULT RunDiff_WChar(
+					[in] WCHAR* pwszFileBase,
+					[in] WCHAR* pwszFileChanged
+			);
+*/
+	    HRESULT RunDiff_Var(
+					[in] VARIANTARG fileNames
+			);
+
+	};
+
+[
+	uuid(C507245B-1B5E-4BFE-A9CB-4B21986375A8),
+	version(4.0),
+	helpstring("jeditlauncher 4.0 Type Library")
+]
+library JEDITLAUNCHERLib
+{
+	importlib("stdole32.tlb");
+	importlib("stdole2.tlb");
+
+	[
+		uuid(6F58631E-D9C6-465C-B3A2-603F3F3D918C),
+		helpstring("JEditLauncher40 Class")
+	]
+	coclass JEditLauncher40
+	{
+		[default] interface IJEditLauncher;
+	};
+};

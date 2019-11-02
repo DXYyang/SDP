@@ -1,0 +1,52 @@
+Lucene Benchmark Contrib Change Log
+
+The Benchmark contrib package contains code for benchmarking Lucene in a variety of ways.
+
+$Id:$
+
+4/17/07
+- LUCENE-863: Deprecated StandardBenchmarker in favour of byTask code.
+  (Otis Gospodnetic)
+
+4/13/07
+
+Better error handling and javadocs around "exhaustive" doc making.
+
+3/25/07
+
+LUCENE-849: 
+1. which HTML Parser is used is configurable with html.parser property.
+2. External classes added to classpath with -Dbenchmark.ext.classpath=path.
+3. '*' as repeating number now means "exhaust doc maker - no repetitions".
+
+3/22/07
+
+-Moved withRetrieve() call out of the loop in ReadTask
+-Added SearchTravRetLoadFieldSelectorTask to help benchmark some of the FieldSelector capabilities
+-Added options to store content bytes on the Reuters Doc (and others, but Reuters is the only one w/ it enabled)
+
+3/21/07
+
+Tests (for benchmarking code correctness) were added - LUCENE-840.
+To be invoked by "ant test" from contrib/benchmark. (Doron Cohen)
+
+3/19/07
+
+1. Introduced an AbstractQueryMaker to hold common QueryMaker code. (GSI)
+2. Added traversalSize parameter to SearchTravRetTask and SearchTravTask.  Changed SearchTravRetTask to extend SearchTravTask. (GSI)
+3. Added FileBasedQueryMaker to run queries from a File or resource. (GSI)
+4. Modified query-maker generation for read related tasks to make further read tasks addition simpler and safer. (DC)
+5. Changed Taks' setParams() to throw UnsupportedOperationException if that task does not suppot command line param. (DC)
+6. Improved javadoc to specify all properties command line params currently supported. (DC)
+7. Refactored ReportTasks so that it is easy/possible now to create new report tasks. (DC)
+
+01/09/07
+
+1. Committed Doron Cohen's benchmarking contribution, which provides an easily expandable task based approach to benchmarking.  See the javadocs for information. (Doron Cohen via Grant Ingersoll)
+
+2. Added this file.
+
+3. 2/11/07: LUCENE-790 and 788:  Fixed Locale issue with date formatter. Fixed some minor issues with benchmarking by task.  Added a dependency
+ on the Lucene demo to the build classpath.  (Doron Cohen, Grant Ingersoll)
+
+4. 2/13/07: LUCENE-801: build.xml now builds Lucene core and Demo first and has classpath dependencies on the output of that build.  (Doron Cohen, Grant Ingersoll)

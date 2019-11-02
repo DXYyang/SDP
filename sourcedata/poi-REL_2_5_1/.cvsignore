@@ -1,0 +1,13 @@
+dist
+build
+scripts
+*.el
+*.ipr
+*.iws
+*.iml
+build.number
+log*.*
+*.log
+.clover
+.classpath
+.project

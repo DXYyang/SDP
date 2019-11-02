@@ -1,0 +1,11 @@
+; jedinstl.def : Declares the module parameters.
+
+; $Id: jedinstl.def,v 1.2 2001/08/04 17:19:11 jgellene Exp $
+
+LIBRARY      "jedinstl.DLL"
+
+EXPORTS
+	Install     @1 PRIVATE
+	Unregister  @2 PRIVATE
+	Uninstall   @3 PRIVATE
+;	DoDebug		@4 PRIVATE

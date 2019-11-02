@@ -1,0 +1,17 @@
+# Microsoft Developer Studio Generated Dependency File, included by jeditshell.mak
+
+.\jeditshell.cpp : \
+	".\jeditshell.h"\
+	".\jeditshell_i.c"\
+	".\StdAfx.h"\
+	{$(INCLUDE)}"guiddef.h"\
+	
+
+.\jeditshell.rc : \
+	".\IJEditCtxMenu.rgs"\
+	".\jeditshell.ico"\
+	
+
+.\StdAfx.cpp : \
+	".\StdAfx.h"\
+	

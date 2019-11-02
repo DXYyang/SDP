@@ -1,0 +1,79 @@
+<!-- jEdit buffer-local properties:                     -->
+<!-- :indentSize=1:noTabs=true:maxLineLen=72:tabSize=2: -->
+
+<!-- jEditLauncher 4.0 Installation and User Guide      -->
+<!-- Copyright (C) 2001-2002 John Gellene                    -->
+
+<!-- $Id: launcher-guide.xml,v 1.2 2002/01/22 19:06:05 jgellene Exp $
+-->
+
+<!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN"
+		"http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd" [
+
+<!ENTITY launcher SYSTEM "launcher.xml">
+
+]>
+
+<article id="launcher-guide">
+  <articleinfo>
+    <author>
+      <firstname>John</firstname><surname>Gellene</surname>
+      <affiliation><address><email>jgellene@nyc.rr.com</email></address></affiliation>
+    </author>
+    <copyright><year>2001-2002</year><holder>John Gellene</holder></copyright>
+    <legalnotice><title>Legal Notice</title>
+      <para>
+        Permission is granted to copy, distribute and/or modify this document
+        under the terms of the GNU Free Documentation License, Version 1.1 or
+        any later version published by the Free Software Foundation; with no
+        <quote>Invariant Sections</quote>, <quote>Front-Cover Texts</quote> or
+        <quote>Back-Cover Texts</quote>, each as defined in the license. A copy of
+        the license is included in the file <filename>COPYING.DOC.txt</filename>
+        included with jEditLauncher.
+      </para>
+    </legalnotice>
+    <title>jEditLauncher 4.0 installation and use guide</title>
+    <revhistory>
+      <revision>
+        <revnumber>1.0</revnumber>
+        <date>May 5, 2001</date>
+     </revision>
+     <revision>
+        <revnumber>3.1</revnumber>
+        <date>May 29, 2001</date>
+     </revision>
+     <revision>
+        <revnumber>3.2</revnumber>
+        <date>July 18, 2001</date>
+     </revision>
+     <revision>
+        <revnumber>3.2, release 2</revnumber>
+        <date>July 30, 2001</date>
+     </revision>
+     <revision>
+        <revnumber>3.2, release 3</revnumber>
+        <date>August 4, 2001</date>
+     </revision>
+     <revision>
+        <revnumber>3.2 final</revnumber>
+        <date>August 28, 2001</date>
+     </revision>
+     <revision>
+        <revnumber>3.2.1</revnumber>
+        <date>September 1, 2001</date>
+     </revision>
+     <revision>
+        <revnumber>3.2.2</revnumber>
+        <date>December 29, 2001</date>
+     </revision>
+     <revision>
+        <revnumber>4.0</revnumber>
+        <date>January 22, 2002</date>
+     </revision>
+    </revhistory>
+  </articleinfo>
+
+&launcher;
+
+</article>
+

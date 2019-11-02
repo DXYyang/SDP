@@ -1,0 +1,208 @@
+<?xml version="1.0"?>
+
+<!--
+     This is a build.xml file for building jEdit.
+-->
+
+<project name="jEdit" default="dist" basedir=".">
+
+	<property file="build.properties"/>
+
+	<target name="init">
+		<available property="jdk14" classname="java.awt.KeyboardFocusManager" />
+		<delete file="doc/docbook-wrapper.xsl" />
+		<echo file="doc/docbook-wrapper.xsl"
+			message="&lt;xsl:stylesheet"/>
+		<echo file="doc/docbook-wrapper.xsl" append="true"
+			message=" xmlns:xsl='http://www.w3.org/1999/XSL/Transform'"/>
+		<echo file="doc/docbook-wrapper.xsl" append="true"
+			message=" xsl:version='1.0'&gt;"/>
+		<echo file="doc/docbook-wrapper.xsl" append="true"
+			message="&lt;xsl:import href='${docbook.xsl}/html/chunk.xsl'/&gt;"/>
+		<echo file="doc/docbook-wrapper.xsl" append="true"
+			message="&lt;/xsl:stylesheet&gt;"/>
+	</target>
+
+	<target name="compile" depends="init">
+		<javac
+			srcdir="."
+			destdir="."
+			deprecation="on"
+			includeJavaRuntime="yes"
+		>
+			<include name="bsh/**/*.java"/>
+			<include name="com/microstar/xml/*.java"/>
+			<include name="gnu/regexp/*.java"/>
+			<include name="installer/*.java"/>
+			<include name="org/gjt/sp/jedit/**/*.java"/>
+			<exclude name="org/gjt/sp/jedit/Java14.java"/>
+			<include name="org/gjt/sp/util/*.java"/>
+		</javac>
+	</target>
+
+	<target name="compile14" depends="init" if="jdk14">
+		<javac
+			srcdir="."
+			destdir="."
+			deprecation="on"
+			includeJavaRuntime="yes"
+		>
+			<include name="org/gjt/sp/jedit/Java14.java"/>
+		</javac>
+	</target>
+
+	<target name="dist" depends="compile,compile14">
+		<jar
+			jarfile="jedit.jar"
+			manifest="org/gjt/sp/jedit/jedit.manifest"
+		>
+			<fileset dir=".">
+				<include name="bsh/**/*.class"/>
+				<include name="com/**/*.class"/>
+				<include name="gnu/**/*.class"/>
+				<include name="org/**/*.class"/>
+
+				<include name="bsh/commands/*.bsh"/>
+
+				<include name="gnu/regexp/MessagesBundle.properties"/>
+
+				<include name="org/gjt/sp/jedit/**/*.dtd"/>
+				<include name="org/gjt/sp/jedit/icons/*.gif"/>
+				<include name="org/gjt/sp/jedit/icons/*.jpg"/>
+				<include name="org/gjt/sp/jedit/icons/*.png"/>
+				<include name="org/gjt/sp/jedit/options/overview.html"/>
+				<include name="org/gjt/sp/jedit/*.props"/>
+
+				<include name="org/gjt/sp/jedit/actions.xml"/>
+				<include name="org/gjt/sp/jedit/dockables.xml"/>
+				<include name="org/gjt/sp/jedit/default.abbrevs"/>
+				<include name="org/gjt/sp/jedit/jedit.bsh"/>
+			</fileset>
+		</jar>
+	</target>
+
+	<!-- Generate HTML docs with xsltproc tool from www.xmlsoft.org -->
+	<target name="docs-html-xsltproc" depends="init">
+		<exec executable="xsltproc" dir="doc/users-guide">
+			<arg value="--catalogs"/>
+			<arg value="../jedithtml.xsl"/>
+			<arg value="users-guide.xml"/>
+		</exec>
+		<exec executable="xsltproc" dir="doc/FAQ">
+			<arg value="--catalogs"/>
+			<arg value="../jedithtml.xsl"/>
+			<arg value="faq.xml"/>
+		</exec>
+	</target>
+
+	<!-- Generate HTML docs with Xalan tool from xml.apache.org -->
+	<target name="docs-html-xalan" depends="init">
+		<style
+			in="doc/users-guide/users-guide.xml"
+			destdir="doc/users-guide"
+			style="doc/jedithtml.xsl"/>
+		<style
+			in="doc/FAQ/faq.xml"
+			destdir="doc/FAQ"
+			style="doc/jedithtml.xsl"/>
+	</target>
+
+	<!-- Generate PDF docs with OpenJade tool from openjade.sf.net -->
+	<target name="docs-pdf-openjade-letter">
+		<exec executable="openjade" dir="doc/users-guide">
+			<arg value="-d"/>
+			<arg value="../jeditprint-letter.dsl"/>
+			<arg value="-t"/>
+			<arg value="tex"/>
+			<arg value="/usr/share/sgml/xml.dcl"/>
+			<arg value="users-guide.xml"/>
+		</exec>
+		<exec executable="pdfjadetex" dir="doc/users-guide">
+			<arg value="users-guide.tex"/>
+		</exec>
+		<exec executable="pdfjadetex" dir="doc/users-guide">
+			<arg value="users-guide.tex"/>
+		</exec>
+		<exec executable="pdfjadetex" dir="doc/users-guide">
+			<arg value="users-guide.tex"/>
+		</exec>
+		<move file="doc/users-guide/users-guide.pdf"
+			tofile="doc/users-guide/users-guide-letter.pdf" />
+	</target>
+
+	<target name="docs-pdf-openjade-a4">
+		<exec executable="openjade" dir="doc/users-guide">
+			<arg value="-d"/>
+			<arg value="../jeditprint-a4.dsl"/>
+			<arg value="-t"/>
+			<arg value="tex"/>
+			<arg value="/usr/share/sgml/xml.dcl"/>
+			<arg value="users-guide.xml"/>
+		</exec>
+		<exec executable="pdfjadetex" dir="doc/users-guide">
+			<arg value="users-guide.tex"/>
+		</exec>
+		<exec executable="pdfjadetex" dir="doc/users-guide">
+			<arg value="users-guide.tex"/>
+		</exec>
+		<exec executable="pdfjadetex" dir="doc/users-guide">
+			<arg value="users-guide.tex"/>
+		</exec>
+		<move file="doc/users-guide/users-guide.pdf"
+			tofile="doc/users-guide/users-guide-a4.pdf" />
+	</target>
+
+	<target name="javadoc">
+		<delete dir="doc/api"/>
+		<mkdir dir="doc/api"/>
+
+		<javadoc packagenames="bsh.*, com.*, gnu.*, org.*"
+			sourcepath="."
+			classpath="."
+			destdir="doc/api"
+			author="true"
+			version="true"
+			windowtitle="jEdit API"
+			doctitle="jEdit API" />
+	</target>
+
+	<target name="clean">
+		<delete>
+			<fileset dir="." includes="**/*.class"/>
+			<fileset dir="." includes="**/*~" defaultexcludes="no"/>
+			<fileset dir="." includes="**/#*#" defaultexcludes="no"/>
+			<fileset dir="." includes="**/*.rej"/>
+			<fileset dir="." includes="**/*.orig"/>
+			<fileset dir="." includes="**/.*.swp"/>
+			<fileset dir="." includes="**/.#*"/>
+			<fileset dir="." includes="**/.new*"/>
+			<fileset dir="." includes="**/.directory"/>
+<!--
+			<fileset dir="." includes="doc/users-guide/*.html"/>
+			<fileset dir="." includes="doc/users-guide/toc.xml"/>
+			<fileset dir="." includes="doc/users-guide/word-index.xml"/>
+
+			<fileset dir="." includes="doc/FAQ/*.html"/>
+			<fileset dir="." includes="doc/FAQ/toc.xml"/>
+			<fileset dir="." includes="doc/FAQ/word-index.xml"/>
+-->
+			<fileset dir="." includes="doc/users-guide/*.pdf"/>
+			<fileset dir="." includes="doc/users-guide/*.aux"/>
+			<fileset dir="." includes="doc/users-guide/*.tex"/>
+			<fileset dir="." includes="doc/users-guide/*.out"/>
+			<fileset dir="." includes="doc/users-guide/*.log"/>
+
+			<fileset dir="." includes="installer/jedit-*"/>
+		</delete>
+		<delete dir="doc/api"/>
+	</target>
+
+	<!-- Generate tags using 'ctags' program from ctags.sourceforge.net -->
+	<target name="tags">
+		<exec executable="ctags">
+			<arg value="-R" />
+			<arg path="." />
+		</exec>
+	</target>
+
+</project>

@@ -1,0 +1,46 @@
+HKCR
+{
+	JEdit.JEditLauncher.4.0 = s 'JEditLauncher40 Class'
+	{
+		CLSID = s '{6F58631E-D9C6-465C-B3A2-603F3F3D918C}'
+	}
+	NoRemove CLSID
+	{
+		ForceRemove {6F58631E-D9C6-465C-B3A2-603F3F3D918C} = s 'JEditLauncher40 Class'
+		{
+			ProgID = s 'JEdit.JEditLauncher.4.0'
+			VersionIndependentProgID = s 'JEdit.JEditLauncher'
+			ForceRemove 'Programmable'
+			LocalServer32 = s '%MODULE%'
+			'TypeLib' = s '{C507245B-1B5E-4BFE-A9CB-4B21986375A8}'
+			Version = s '4.0'
+			val AppID = s '{F5132901-5C16-42F2-985A-6D988DAA6601}'
+		}
+	}
+}
+HKCU
+{
+  	NoRemove Software
+	{
+    	NoRemove Microsoft
+		{
+			NoRemove Windows
+			{
+				NoRemove CurrentVersion
+				{
+					NoRemove Uninstall
+					{
+						'jEdit 4.0'
+						{
+							val Comments = s 'Includes jEditLauncher COM component'
+							val DisplayName = s 'jEdit Version 4.0'
+							val Publisher = s 'www.jedit.org'
+							val VersionMajor = d '4'
+							val VersionMinor = d '0'
+						}
+					}
+				}
+			}
+		}
+	}
+}

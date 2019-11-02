@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<project name="ant" default="default">
+
+  <description>
+    Lucene Ant integration
+  </description>
+
+  <path id="additional.dependencies">
+    <!-- TODO: make ${tidy.jar} property -->
+    <pathelement location="lib/Tidy.jar"/>
+  </path>
+
+  <pathconvert property="project.classpath"
+               targetos="unix"
+               refid="additional.dependencies"
+  />
+
+  <target name="compile-core" depends="common.compile-core">
+    <copy todir="${build.dir}/classes/java">
+      <fileset dir="src/java" includes="**/*.xml"/>
+    </copy>
+  </target>
+
+  <import file="../contrib-build.xml"/>
+</project>

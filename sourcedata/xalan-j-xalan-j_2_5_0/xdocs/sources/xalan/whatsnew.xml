@@ -1,0 +1,121 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE s1 SYSTEM "../../style/dtd/document.dtd">
+<!--
+ * The Apache Software License, Version 1.1
+ *
+ *
+ * Copyright (c) 1999-2003 The Apache Software Foundation.  All rights 
+ * reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions
+ * are met:
+ *
+ * 1. Redistributions of source code must retain the above copyright
+ *    notice, this list of conditions and the following disclaimer. 
+ *
+ * 2. Redistributions in binary form must reproduce the above copyright
+ *    notice, this list of conditions and the following disclaimer in
+ *    the documentation and/or other materials provided with the
+ *    distribution.
+ *
+ * 3. The end-user documentation included with the redistribution,
+ *    if any, must include the following acknowledgment:  
+ *       "This product includes software developed by the
+ *        Apache Software Foundation (http://www.apache.org/)."
+ *    Alternately, this acknowledgment may appear in the software itself,
+ *    if and wherever such third-party acknowledgments normally appear.
+ *
+ * 4. The names "Xalan" and "Apache Software Foundation" must
+ *    not be used to endorse or promote products derived from this
+ *    software without prior written permission. For written 
+ *    permission, please contact apache@apache.org.
+ *
+ * 5. Products derived from this software may not be called "Apache",
+ *    nor may "Apache" appear in their name, without prior written
+ *    permission of the Apache Software Foundation.
+ *
+ * THIS SOFTWARE IS PROVIDED ``AS IS'' AND ANY EXPRESSED OR IMPLIED
+ * WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
+ * OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+ * DISCLAIMED.  IN NO EVENT SHALL THE APACHE SOFTWARE FOUNDATION OR
+ * ITS CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+ * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+ * LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF
+ * USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
+ * ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+ * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT
+ * OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
+ * SUCH DAMAGE.
+ * ====================================================================
+ *
+ * This software consists of voluntary contributions made by many
+ * individuals on behalf of the Apache Software Foundation and was
+ * originally based on software copyright (c) 1999, Lotus
+ * Development Corporation., http://www.lotus.com.  For more
+ * information on the Apache Software Foundation, please see
+ * <http://www.apache.org/>.
+ -->
+<s1 title="What's new in &xslt4j2;">
+<p>&xslt4j; 2.5 contains the following new features:</p>
+<ul>
+  <li><link anchor="XSLTC-DTM">Integration of DTM into the Xalan Compiled processor (XSLTC)</link></li>
+  <li><link anchor="common_serializer">Integration of Xalan Interpretive and Xalan Compiled Serializers</link></li>
+</ul>
+
+<p>These new features have been driven by the need to have a closer integration 
+and better code reuse between the Xalan Interpretive and the Xalan Compiled (XSLTC) 
+processors. Prior to this release, the processors did not share much code and they 
+had different underlying models for the input xml document. Xalan Interpretive used
+the <link idref="dtm">Document Table Model (DTM)</link> to model the input xml, while 
+XSLTC used its own DOMImpl implementation. The serializers used by the processors were 
+also different.  As the project matures sharing more components between the processors 
+becomes increasingly important. This makes the code more maintainable in the future and 
+also eliminates some subtle behavioral differences between the Interpretive and the 
+Compiled processors.</p>
+
+<p>In addition to these design benefits, the integration of DTM with XSLTC and the common
+serializer provide conformance and performance improvements to our users. In a practical 
+environment, the performance improvement for most stylesheets in XSLTC is likely to be 
+in the range of 10-20%. Stylesheets that use a lot of small result tree fragments (RTF) can 
+be a few times faster because of the new light-weight RTF model. Although the performance 
+improvement work focused mainly on the XSLTC side, the enhancements introduced also 
+contributed to performance benefits for the Xalan Interpretive processor.  As a result, the
+Interpretive processor is roughly 5-10% faster in this release.</p>
+
+<anchor name="XSLTC-DTM"/>
+<s2 title="Integration of DTM into the Xalan Compiled processor (XSLTC)">
+<p>As of the &xslt4j; 2.5 release, both the Xalan Interpretive and Xalan Compiled (XSLTC) 
+processors use the same <link idref="dtm">Document Table Model (DTM)</link>.  XSLTC's 
+underlying document model, DOMImpl, was replaced with DTM and the original DTM was extended 
+so that it could be used more efficiently with XSLTC.  Many of the DOM-related classes in 
+XSLTC were adapted to work with the new DTM model and only a few changes were made in the 
+compiler-related classes. However, because of the changes in the core component, the 
+translets generated by the XSLTC in this release are not binary compatible with the 
+translets generated by previous releases of XSLTC (up to and including Xalan Java 2.5.D1). 
+You'll need to recompile your stylesheets when you switch to this new release.</p> 
+</s2>
+
+<anchor name="common_serializer"/>
+<s2 title="Integration of Xalan Interpretive and Xalan Compiled Serializers">
+<p>As of the &xslt4j; 2.5 release, a common serializer is shared between the
+Xalan Interpretive and Xalan Compiled (XSLTC) processors. The common serializer 
+code resides in the org.apache.xml.serializer package. The new serializer is 
+designed to take the benefits of the old serialization mechanisms from both sides. 
+By using the common serializer, many of the output differences between the 
+Interpretive and the Compiled processor go away, and maintenance effort is
+reduced.</p>
+<p>During the merge of the Xalan Interpretive and XSLTC serializers, an
+effort was made to use the best performing features from each serializer.
+The new class hierarchy is similar to the one used by XSLTC.  At the highest
+level the serializer classes split based on whether the output handler type
+("Stream" or "SAX"). At the next level, the hierarchy branches based on
+the output type (XML, HTML or TEXT).  This allows each flavor of serializer
+to do optimizations based on the output type and whether that output is going 
+to a "Stream" or a "SAX" handler.</p>
+<p>From a functional point of view, the new serializer's output matches the
+behavior of the Interpretive processor's old serializer, such as the choice of
+which HTML entities to write out, and how to escape attribute values in
+documents written to a stream. </p>
+</s2>
+</s1>

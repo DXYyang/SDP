@@ -1,0 +1,108 @@
+# Microsoft Developer Studio Generated Dependency File, included by jedinstl.mak
+
+.\DeferFileOps.cpp : \
+	".\DeferFileOps.h"\
+	".\StdAfx.h"\
+	"e:\program files\microsoft visual studio\vc98\wtl31\include\atlapp.h"\
+	"e:\program files\microsoft visual studio\vc98\wtl31\include\atlgdi.h"\
+	"e:\program files\microsoft visual studio\vc98\wtl31\include\atlmisc.h"\
+	"e:\program files\microsoft visual studio\vc98\wtl31\include\atlres.h"\
+	"e:\program files\microsoft visual studio\vc98\wtl31\include\atluser.h"\
+	"h:\progra~1\microsoft platform sdk\include\basetsd.h"\
+	"h:\progra~1\microsoft platform sdk\include\guiddef.h"\
+	"h:\progra~1\microsoft platform sdk\include\propidl.h"\
+	"h:\progra~1\microsoft platform sdk\include\shldisp.h"\
+	"h:\progra~1\microsoft platform sdk\include\tvout.h"\
+	
+
+.\InstallerLog.cpp : \
+	"..\ltslog\ltslog.h"\
+	".\InstallerLog.h"\
+	".\StdAfx.h"\
+	"e:\program files\microsoft visual studio\vc98\wtl31\include\atlapp.h"\
+	"e:\program files\microsoft visual studio\vc98\wtl31\include\atlgdi.h"\
+	"e:\program files\microsoft visual studio\vc98\wtl31\include\atlmisc.h"\
+	"e:\program files\microsoft visual studio\vc98\wtl31\include\atlres.h"\
+	"e:\program files\microsoft visual studio\vc98\wtl31\include\atluser.h"\
+	"h:\progra~1\microsoft platform sdk\include\basetsd.h"\
+	"h:\progra~1\microsoft platform sdk\include\guiddef.h"\
+	"h:\progra~1\microsoft platform sdk\include\propidl.h"\
+	"h:\progra~1\microsoft platform sdk\include\shldisp.h"\
+	"h:\progra~1\microsoft platform sdk\include\tvout.h"\
+	
+
+.\jedinstl.cpp : \
+	".\jedinstl.h"\
+	".\JELInstaller.h"\
+	".\StdAfx.h"\
+	".\StringPtr.h"\
+	"e:\program files\microsoft visual studio\vc98\wtl31\include\atlapp.h"\
+	"e:\program files\microsoft visual studio\vc98\wtl31\include\atlgdi.h"\
+	"e:\program files\microsoft visual studio\vc98\wtl31\include\atlmisc.h"\
+	"e:\program files\microsoft visual studio\vc98\wtl31\include\atlres.h"\
+	"e:\program files\microsoft visual studio\vc98\wtl31\include\atluser.h"\
+	"h:\progra~1\microsoft platform sdk\include\basetsd.h"\
+	"h:\progra~1\microsoft platform sdk\include\guiddef.h"\
+	"h:\progra~1\microsoft platform sdk\include\propidl.h"\
+	"h:\progra~1\microsoft platform sdk\include\shldisp.h"\
+	"h:\progra~1\microsoft platform sdk\include\tvout.h"\
+	
+
+.\JELInstaller.cpp : \
+	"..\ltslog\ltslog.h"\
+	".\DeferFileOps.h"\
+	".\InstallData.h"\
+	".\InstallerLog.h"\
+	".\JELInstaller.h"\
+	".\JELRegInstaller.h"\
+	".\StdAfx.h"\
+	".\StringPtr.h"\
+	"e:\program files\microsoft visual studio\vc98\wtl31\include\atlapp.h"\
+	"e:\program files\microsoft visual studio\vc98\wtl31\include\atlgdi.h"\
+	"e:\program files\microsoft visual studio\vc98\wtl31\include\atlmisc.h"\
+	"e:\program files\microsoft visual studio\vc98\wtl31\include\atlres.h"\
+	"e:\program files\microsoft visual studio\vc98\wtl31\include\atluser.h"\
+	"h:\progra~1\microsoft platform sdk\include\basetsd.h"\
+	"h:\progra~1\microsoft platform sdk\include\guiddef.h"\
+	"h:\progra~1\microsoft platform sdk\include\propidl.h"\
+	"h:\progra~1\microsoft platform sdk\include\shldisp.h"\
+	"h:\progra~1\microsoft platform sdk\include\tvout.h"\
+	
+
+.\JELRegInstaller.cpp : \
+	"..\ltslog\ltslog.h"\
+	".\InstallData.h"\
+	".\InstallerLog.h"\
+	".\JELInstaller.h"\
+	".\JELRegInstaller.h"\
+	".\StdAfx.h"\
+	".\StringPtr.h"\
+	"e:\program files\microsoft visual studio\vc98\wtl31\include\atlapp.h"\
+	"e:\program files\microsoft visual studio\vc98\wtl31\include\atlgdi.h"\
+	"e:\program files\microsoft visual studio\vc98\wtl31\include\atlmisc.h"\
+	"e:\program files\microsoft visual studio\vc98\wtl31\include\atlres.h"\
+	"e:\program files\microsoft visual studio\vc98\wtl31\include\atluser.h"\
+	"h:\progra~1\microsoft platform sdk\include\basetsd.h"\
+	"h:\progra~1\microsoft platform sdk\include\guiddef.h"\
+	"h:\progra~1\microsoft platform sdk\include\propidl.h"\
+	"h:\progra~1\microsoft platform sdk\include\shldisp.h"\
+	"h:\progra~1\microsoft platform sdk\include\tvout.h"\
+	
+
+.\StdAfx.cpp : \
+	".\StdAfx.h"\
+	"e:\program files\microsoft visual studio\vc98\wtl31\include\atlapp.h"\
+	"e:\program files\microsoft visual studio\vc98\wtl31\include\atlgdi.h"\
+	"e:\program files\microsoft visual studio\vc98\wtl31\include\atlmisc.h"\
+	"e:\program files\microsoft visual studio\vc98\wtl31\include\atlres.h"\
+	"e:\program files\microsoft visual studio\vc98\wtl31\include\atluser.h"\
+	"h:\progra~1\microsoft platform sdk\include\basetsd.h"\
+	"h:\progra~1\microsoft platform sdk\include\guiddef.h"\
+	"h:\progra~1\microsoft platform sdk\include\propidl.h"\
+	"h:\progra~1\microsoft platform sdk\include\shldisp.h"\
+	"h:\progra~1\microsoft platform sdk\include\tvout.h"\
+	
+
+.\jedinstl.rc : \
+	".\unlaunch.ico"\
+	

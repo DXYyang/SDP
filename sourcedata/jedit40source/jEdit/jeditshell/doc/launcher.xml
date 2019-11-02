@@ -1,0 +1,1272 @@
+<!-- jEdit buffer-local properties:                           -->
+<!-- :tabSize=2:indentSize=1:noTabs=true:maxLineLen=72:       -->
+
+<!-- jEditLauncher 4.0 Installation and User Guide            -->
+<!-- Copyright (C) 2001 John Gellene                          -->
+
+<!-- $Id: launcher.xml,v 1.3 2002/01/22 06:09:11 jgellene Exp $
+-->
+
+<!-- In book or book/part format, new chapter will start here -->
+
+<simplesect>
+  <title>Introduction</title>
+  <para>
+    This is an installation and use guide for jEditLauncher - a set of
+    lightweight components for using the jEdit text editor with the Windows
+    group of operating systems. The jEditLauncher package is designed to run
+    on Windows 95, Windows 98, Windows ME, Windows NT (versions 3.51 and
+    greater), Windows 2000 and Windows XP. This version is designed to work with
+    jEdit versions beginning with 3.2 (including the development versions
+    in the 4.0 series).  It will not work with earlier versions.
+  </para>
+</simplesect>
+
+<simplesect>
+  <title>How it works</title>
+  <para>
+    While jEdit does not make available a component-type interface, it does
+    contains an <quote>EditServer</quote> that listens on a socket for
+    requests to load scripts written in the BeanShell scripting language.
+    When the server activates, it writes the server port number and a
+    pseudo-random, numeric authorization key to a text file. By default, the
+    file is named <filename>server</filename> and is located in the same
+    directory as other jEdit files containing user settings. The
+    jEditLauncher components locate and read this file, open a socket and
+    attempt to connect to the indicated port. If successful, jEditLauncher
+    transmits the appropriate BeanShell script to the server. If
+    unsuccessful, it attempts to start jEdit and repeats the socket
+    transmission once it can obtain the port and key information. The
+    component will abandon the effort to connect roughly twenty seconds
+    after it launches the application.
+  </para>
+  <para>
+    Version 3.2.2 and 4.0 of jEdit use different protocols for
+    accepting data.  The jEditLauncher module will automtically detect
+    which protocol is required.
+  </para>
+
+</simplesect>
+
+<simplesect>
+  <title>Files in the jEditLauncher package</title>
+  <para>
+    The jEditLauncher package consists of the following files:
+  </para>
+  <itemizedlist>
+    <listitem>
+      <para>
+        <filename>jeshlstb.dll</filename> - an extension for the
+        Windows shell that provides a context menu handler for jEdit
+      </para>
+    </listitem>
+    <listitem>
+      <para>
+        <filename>jeditsvr.exe</filename> - a COM server that sends
+        request to open files and run scripts to jEdit
+      </para>
+    </listitem>
+    <listitem>
+      <para>
+        <filename>jeservps.dll</filename> - a COM <quote>proxy/stub</quote>
+        component that marshals multiple data request across process
+        boundaries to the COM component
+      </para>
+    </listitem>
+    <listitem>
+      <para>
+        <filename>jedit.exe</filename> - an application for launching jEdit
+        and loading files
+      </para>
+    </listitem>
+    <listitem>
+      <para>
+        <filename>jedinit.exe</filename> - a utility program for setting
+        jEdit's command line parameters using a dialog interface
+      </para>
+    </listitem>
+    <listitem>
+      <para>
+        <filename>jedinstl.dll</filename> - a executable file containing the
+        install and uninstall routines for the package
+      </para>
+    </listitem>
+    <listitem>
+      <para>
+        <filename>unlaunch.exe</filename> - a utility program that uninstalls
+        jEditLauncher and jEdit
+      </para>
+    </listitem>
+    <listitem>
+      <para>
+        <filename>ltslog.dll</filename> - a executable file that provides
+        logging capability for other components in the jEditLauncher package
+      </para>
+    </listitem>
+
+  </itemizedlist>
+
+</simplesect>
+
+<!-- In book or book/part format, new chapter will start here -->
+<simplesect>
+  <title>The COM component</title>
+  <para>
+    The core of the jEditLauncher package is a COM component that can
+    communicate with the EditServer, or open jEdit if it is not running or
+    is otherwise refusing a connection. The component supports both Windows
+    and UNC file specifications, including wild cards. It will resolve
+    shortcut links to identify and transmit the name of the underlying file.
+  </para>
+
+  <para>
+    Because it is implemented with a <quote>dual interface</quote>, the
+    functions of jEditLauncher are available to scripting languages in the
+    Windows environment such as VBScript, JScript, Perl (using the
+    Win32::OLE package) and Python (using the win32com.client package).
+    A low-level interface for client code in previous version has been
+    removed in favor of a server that marshall data across process
+    boundaries.
+  </para>
+
+</simplesect>
+
+<simplesect>
+  <title>The jEditLauncher interface</title>
+  <para>
+    The jEditLauncher interface is set forth in the definition of the
+    abstract C++ class <classname>IJEditLauncher</classname>. It is a
+    <quote>interface</quote> or pure abstract class derived from the
+    <classname>IDispatch</classname> interface used for components that can
+    be addressed using Microsoft's <quote>Automation</quote> technology. The
+    <quote>IJEditLauncher</quote> interface has two parts: a scriptable
+    interface tied to <classname>IDispatch</classname>, and a <quote>direct
+    client</quote> interface with methods that use primitive data types.
+  </para>
+
+  <para>
+    The scriptable interface consists of two read-only properties and
+    six functions:
+  </para>
+  <para>
+    <emphasis>Properties</emphasis>
+  </para>
+  <itemizedlist>
+    <listitem>
+      <para>
+        <emphasis>ServerPort</emphasis> - a read-only property that returns the
+        port number found in jEdit's server file; the value is not tested for
+        authenticity. It returns zero if the server information file cannot
+        be located.
+      </para>
+    </listitem>
+
+    <listitem>
+      <para>
+        <emphasis>ServerKey</emphasis> - a read-only property that returns the numeric
+        authorization key found in jEdit's server file; the value is not tested
+        for authenticity. It returns zero if the server information file cannot
+        be located.
+        </para>
+    </listitem>
+    </itemizedlist>
+
+    <para>
+      <emphasis>Functions</emphasis>
+    </para>
+    <itemizedlist>
+    <listitem>
+      <para>
+        <emphasis>OpenFile</emphasis> - a method that takes a single file name
+        (with or without wild card characters) as a parameter.
+      </para>
+    </listitem>
+
+    <listitem>
+      <para>
+        <emphasis>OpenFiles</emphasis> - this method takes a array of file names
+        (with or without wild card characters) as a parameter. The form of the
+        array is that which is used for arrays in the scripting environment. In
+        JScript, for example the data type of the <type>VARIANT</type> holding
+        the array is <type>VT_DISPATCH</type>; in VBScript, it is <type>VT_ARRAY
+        | VT_VARIANT</type>, with array members having data type
+        <type>VT_BSTR</type>.
+      </para>
+    </listitem>
+
+    <listitem>
+      <para>
+        <emphasis>Launch</emphasis> - this method with no parameters attempts to
+        open jEdit without loading additional files.
+      </para>
+    </listitem>
+
+  <listitem>
+    <para>
+      <emphasis>RunScript</emphasis> - this method takes a file name or full file
+      path as a parameter and runs the referenced file as a BeanShell script in jEdit.
+      The predefined variables <varname>view</varname>, <varname>editPane</varname>,
+      <varname>textArea</varname> and <varname>buffer</varname> are available to the
+      script. If more than one view is open, the variable are
+      initialized with reference to the earliest opened view. If no path is
+      given for the file it will use the working directory of the calling process.
+    </para>
+  </listitem>
+
+  <listitem>
+    <para>
+      <emphasis>EvalScript</emphasis> - this method takes a string as a
+      parameter containing one or more BeanShell statements and runs the script
+      in jEdit's BeanSAhell interpreter.  The
+      predefined variables are available on the same basis as in
+      <function>RunScript</function>.
+    </para>
+  </listitem>
+
+  <listitem>
+    <para>
+      <emphasis>RunDiff</emphasis> - this method takes two strings
+      representing file names as parameters.  If the
+      <application>JDiff</application> plugin is installed, this method
+      will activate the JDiff plugin and display the two files in the
+      plugin's graphical <quote>dual diff</quote> format.  The first
+      parameter is treated as the base for display purposes.  If the
+      <application>JDiff</application> plugin is not installed, a
+      error message box will be displayed in jEdit.
+    </para>
+  </listitem>
+  </itemizedlist>
+<!--
+  <para>
+    The <quote>direct client</quote> interface provides substitutes for the
+    many of the functions in the scriptable interface that are suitable for
+    use in client code with either 16-bit or <quote>wide</quote> 32-bit
+    character data:
+  </para>
+
+<itemizedlist>
+
+  <listitem>
+    <funcsynopsis>
+      <funcprototype>
+        <funcdef>HRESULT <function>OpenFile_Char</function></funcdef>
+        <paramdef>char* <parameter>szFileName</parameter></paramdef>
+      </funcprototype>
+    </funcsynopsis>
+  </listitem>
+
+  <listitem>
+    <funcsynopsis>
+      <funcprototype>
+        <funcdef>HRESULT <function>OpenFile_WChar</function></funcdef>
+        <paramdef>wchar_t* <parameter>wszFileName</parameter></paramdef>
+      </funcprototype>
+    </funcsynopsis>
+  </listitem>
+
+  <listitem>
+    <funcsynopsis>
+      <funcprototype>
+        <funcdef>HRESULT <function>OpenFiles_Char</function></funcdef>
+        <paramdef>char** <parameter>argv</parameter></paramdef>
+        <paramdef>int <parameter>numArgs</parameter></paramdef>
+      </funcprototype>
+    </funcsynopsis>
+  </listitem>
+
+  <listitem>
+    <funcsynopsis>
+      <funcprototype>
+        <funcdef>HRESULT <function>OpenFiles_WChar</function></funcdef>
+        <paramdef>wchar_t** <parameter>argv</parameter></paramdef>
+        <paramdef>int <parameter>numArgs</parameter></paramdef>
+      </funcprototype>
+    </funcsynopsis>
+  </listitem>
+</itemizedlist>
+
+	<para>
+    In the latter two functions, the parameters are a pointer to an
+    array of character strings and the number of elements in the array.
+    Each of the four low-level functions returns zero if successful and a
+    COM-specific error code if it fails.  Error information is available
+    for scripts or other client code to trap and report using
+    conventional techniques.  Examples of error reporting may be found in
+    the source code for <application>jedit.exe</application>.
+  </para>
+
+<itemizedlist>
+
+  <listitem>
+    <funcsynopsis>
+      <funcprototype>
+        <funcdef>HRESULT <function>RunScript_Char</function></funcdef>
+        <paramdef>char* <parameter>szFileName</parameter></paramdef>
+      </funcprototype>
+    </funcsynopsis>
+  </listitem>
+
+  <listitem>
+    <funcsynopsis>
+      <funcprototype>
+        <funcdef>HRESULT <function>RunScript_WChar</function></funcdef>
+        <paramdef>wchar_t* <parameter>wszFileName</parameter></paramdef>
+      </funcprototype>
+    </funcsynopsis>
+  </listitem>
+
+  <listitem>
+    <funcsynopsis>
+      <funcprototype>
+        <funcdef>HRESULT <function>EvalScript_Char</function></funcdef>
+        <paramdef>char* <parameter>szScript</parameter></paramdef>
+      </funcprototype>
+    </funcsynopsis>
+  </listitem>
+
+  <listitem>
+    <funcsynopsis>
+      <funcprototype>
+        <funcdef>HRESULT <function>EvalScript_WChar</function></funcdef>
+        <paramdef>wchar_t* <parameter>wszScript</parameter></paramdef>
+      </funcprototype>
+    </funcsynopsis>
+  </listitem>
+
+</itemizedlist>
+
+  <para>
+    The parameter for the <function>RunScript</function> functions
+    represent the file name or path of the BeanShell script to be run
+    in jEdit.  The parameter for the <function>EvalScript</function>
+    functions is a string containing one or more BeanShell expressions.
+  </para>
+
+<itemizedlist>
+  <listitem>
+    <funcsynopsis>
+      <funcprototype>
+        <funcdef>HRESULT <function>RunDiff_Char</function></funcdef>
+        <paramdef>char* <parameter>szFileBase</parameter></paramdef>
+        <paramdef>char* <parameter>szFileChanged</parameter></paramdef>
+      </funcprototype>
+    </funcsynopsis>
+  </listitem>
+
+  <listitem>
+    <funcsynopsis>
+      <funcprototype>
+        <funcdef>HRESULT <function>RunDiff_WChar</function></funcdef>
+        <paramdef>wchar_t* <parameter>wszFileBase</parameter></paramdef>
+        <paramdef>wchar_t* <parameter>wszFileChanged</parameter></paramdef>
+      </funcprototype>
+    </funcsynopsis>
+  </listitem>
+
+</itemizedlist>
+
+  <para>
+    The parameters in these two functions represent the two file that
+    the JDiff plugin will compare.
+  </para>
+
+-->
+</simplesect>
+
+<simplesect>
+  <title>Scripting examples</title>
+  <para>
+    Here are some brief examples of scripts using jEditLauncher. The first
+    two will run under Windows Script Host, which is either installed or
+    available for download for 32-bit Windows operating systems. The next
+    example is written in Perl and requires the Win32::OLE package. The
+    last is written in Python and requires the win32gui and win32com.client
+    extensions.
+  </para>
+  <para>
+    If Windows Script Host is installed, you can run the first two
+    scripts by typing the name of the file containing the script at a
+    command prompt.  In jEdit's Console plugin, you can type
+    <userinput>cmd /c <replaceable>script_path</replaceable></userinput> or
+    <userinput>wscript <replaceable>script_path</replaceable></userinput>.
+  </para>
+
+<informalexample><programlisting>' Example VBSscript using jEditLauncher interface
+dim launcher
+set launcher = CreateObject("JEdit.JEditLauncher")
+a = Array("I:\Source Code Files\shellext\jeditshell\*.h", _
+	"I:\Source Code Files\shellext\jeditshell\*.cpp")
+MsgBox "The server authorization code is " + _
+	FormatNumber(launcher.ServerKey, 0, 0, 0, 0) + ".", _
+	vbOKOnly + vbInformation, "jEditLauncher"
+launcher.openFiles(a)
+myScript = "jEdit.newFile(view); textArea.setSelectedText(" &amp; CHR(34) _
+  &amp; "Welcome to jEditLauncher." &amp; CHR(34) &amp; ");"
+launcher.evalScript(myScript)</programlisting></informalexample>
+<para>
+
+</para>
+<informalexample><programlisting>/* Example JScript using jEditLauncher interface
+ * Note: in contrast to VBScript, JScript does not
+ * directly support message boxes outside a browser window
+ */
+var launcher = WScript.createObject("JEdit.JEditLauncher");
+var a = new Array("I:\\weather.html", "I:\\test.txt");
+b = "I:\\*.pl";
+launcher.openFiles(a);
+launcher.openFile(b);
+c = "G:\\Program Files\\jEdit\\macros\\Misc"
+  + "\\Properties\\System_properties.bsh";
+launcher.runScript(c);</programlisting></informalexample>
+<para>
+
+</para>
+<informalexample><programlisting># Example Perl script using jEditLauncher interface
+use Win32::OLE;
+$launcher = Win32::OLE->new('JEdit.JEditLauncher') ||
+   die "JEditLauncher: not found !\n";
+@files = ();
+foreach $entry (@ARGV) {
+    @new = glob($entry);
+    push(@files,@new);
+}
+$launcher->openFiles(\@files);
+my($script) = "Macros.message(view, \"I found ".(scalar @files)." files.\");"
+$launcher->evalScript($script);</programlisting></informalexample>
+<para>
+
+</para>
+<informalexample><programlisting># Example Python script using jEditLauncher interface
+import win32gui
+import win32com.client
+o = win32com.client.Dispatch("JEdit.JEditLauncher")
+port = o.ServerPort
+if port == 0:
+  port = "inactive. We will now launch jEdit"
+win32gui.MessageBox(0, "The server port is %s." % port,
+    "jEditLauncher", 0)
+path = "C:\\WINNT\\Profiles\\Administrator\\Desktop\\"
+o.RunDiff(path + "Search.bsh", path + "Search2.bsh")
+</programlisting></informalexample>
+
+</simplesect>
+
+<simplesect>
+  <title> The context menu handler</title>
+  <para>
+    The COM component also implements a context menu handler for the Windows
+    shell. It is intended to be be installed as a handler available for any
+    file. When you right-click on a file or shortcut icon, the context menu
+    that appears will include an item displaying the jEdit icon and
+    captioned <guilabel>Open with jEdit</guilabel>. If the file has an
+    extension, another item will appear captioned <guilabel>Open *.XXX with
+    jEdit</guilabel>, where XXX is the extension of the selected file.
+    Clicking this item will cause jEdit to load all files with the same
+    extension in the same directory as the selected file. Multiple file
+    selections are also supported; in this circumstance only the
+    <guilabel>Open with jEdit</guilabel> item appears.
+  </para>
+  <para>
+    If a single file with a <filename>.bsh</filename> is selected, the
+    menu will also contain an item captioned <guilabel>Run script in
+    jEdit</guilabel>. Selecting this item will cause jEditLauncher to
+    run the selected file as a BeanShell script.
+  </para>
+  <para>
+    If exactly two files are selected, the menu will contain an entry
+    for <guilabel>Show diff in jEdit</guilabel>.  Selecting this item will
+    load the two files in jEdit and have them displayed side-by-side
+    with their differences highlighted by the
+    <application>JDiff</application> plugin.  The file selected first will
+    be treated as the base for comparison purposes. If the plugin is not
+    installed, an error message will be displayed in jEdit.
+  </para>
+</simplesect>
+
+<simplesect>
+  <title>jedit.exe - a utility for launching jEdit</title>
+  <para>
+    Another component of the jEditLauncher package is a client application
+    entitled <application>jedit.exe</application>. It may be executed either
+    from the command line or the graphical shell. It uses the jEditLauncher
+    COM component to open files in jEdit that are listed as command line
+    parameters. Like the component, it supports Windows and UNC file
+    specifications as well as wild cards. If called without parameters, it
+    will launch jEdit. If jEdit is already running and has an active
+    EditServer, it will simply open a new, empty buffer.
+  </para>
+
+  <para>
+    From the command line, jedit.exe has four command-line options. If any
+    option is invoked correctly, the application will not load files or
+    execute jEdit.
+  </para>
+
+  <itemizedlist>
+    <listitem>
+      <para>
+        The option <userinput>/h</userinput> causes a window to be displayed
+        with a brief description of the application and its various options.
+      </para>
+    </listitem>
+
+    <listitem>
+      <para>
+        The option <userinput>/p</userinput> will activate a dialog window
+        displaying the command-line parameters to be used when calling jEdit.
+      </para>
+      <para>
+        Using the dialog, you can change parameters specifying the executable for
+        the Java interpreter, the jar archive file or class name used as the
+        target of the interpreter, and command line options for both. If the
+        <userinput>-jar</userinput> option is not used for the Java executable,
+        the principal jEdit class of
+        <classname>org.gjt.sp.jedit.jEdit</classname> is set as fixed data. The
+        working directory for the Java interpreter's process can also be
+        specified. A read-only window at the bottom of the dialog displays
+        the full command-line that jEditLauncher will invoke.
+      </para>
+
+      <para>
+        Before committing changes to the command line parameters,
+        <application>jedit.exe</application> validates the paths for the Java
+        and jEdit targets as well as the working directory. It will complain if
+        the paths are invalid. It will not validate command-line options, but it
+        will warn you if it finds the <userinput>-noserver</userinput> option
+        used for jEdit, since this will deactivate the EditServer and make it
+        impossible for jEditLauncher to open files.
+      </para>
+    </listitem>
+
+    <listitem>
+      <para>
+        The option <userinput>/i</userinput> is not mentioned in the help window
+        for <filename>jedit.exe</filename>. It is intended primarily to be used
+        in conjunction with jEdit's Java installer, but it can also be used to
+        install or reinstall jEditLauncher manually. When accompanied by a second
+        parameter specifying the directory where your preferred Java interpreter
+        is located, jEditLauncher will install itself and set a reasonable
+        initial set of command line parameters for executing jEdit. You can
+        change these parameters later by running <filename>jedit.exe</filename>
+        with the<userinput>/p</userinput> option.
+      </para>
+    </listitem>
+
+    <listitem>
+      <para>
+        The option <userinput>/u</userinput> will cause jEditLauncher
+        to be uninstalled by removing its registration entries.
+        This option currently does not delete any jEditLauncher or
+        jEdit files. To perform a full uninstall, run the
+        <filename>unlaunch.exe</filename> utility.
+      </para>
+    </listitem>
+
+  </itemizedlist>
+
+</simplesect>
+
+<simplesect>
+  <title>jedinit - a utility for setting jEdit parameters</title>
+  <para>
+    The jEditLauncher package includes
+    <application>jedinit.exe</application> as a shortcut to the dialog
+    interface used by <application>jedit.exe</application> to set command
+    line parameters.  This allows you to set parameters directly from
+    the Windows shell without having to enter <userinput>jedit /p</userinput>
+    from a command line.  Its only operating requirement is that it is
+    located in the same directory as <application>jedit.exe</application>.
+  </para>
+</simplesect>
+
+<simplesect>
+  <title>unlaunch - a utility for uninstalling jEdit</title>
+  <para>
+    The final standalone executable in the jEditLauncher package is
+    <filename>unlaunch.exe</filename>. Running this file will uninstall
+    jEditLauncher and jEdit from the directory in which jereomve is located.
+    Since the Java installer that does the bulk of jEdit's installation does
+    not keep a record of files to be deleted, the uninstall routine takes
+    the approach of deleting all files in the installation directory after
+    obtaining confirmation of a request to uninstall.
+  </para>
+
+  <para>
+    If you wish to save files in the the installation directory
+    or any of its subdirectories, you should move them to another location
+    before running <filename>jeremove</filename>.
+  </para>
+
+</simplesect>
+
+<!-- In book or book/part format, new chapter will start here -->
+<simplesect>
+    <title>Installation<anchor id="install"/></title>
+    <para>
+      <!-- Installation of jEditLauncher occurs as part of the installation of the
+      jEdit package for Windows. If a full jEdit installation becomes compromised, -->
+      To install jEditLauncher following a successful install of jEdit,
+      the following files should be placed in the same directory as
+      <filename>jedit.jar</filename>, the archive containing the Java
+      application:
+    </para>
+    <itemizedlist>
+      <listitem><para><filename>jedit.exe</filename></para></listitem>
+      <listitem><para><filename>jedinit.exe</filename></para></listitem>
+      <listitem><para><filename>jeshlstb.dll</filename></para></listitem>
+      <listitem><para><filename>jedinstl.dll</filename></para></listitem>
+      <listitem><para><filename>jeditsvr.exe</filename></para></listitem>
+      <listitem><para><filename>jeservps.dll</filename></para></listitem>
+      <listitem><para><filename>unlaunch.exe</filename></para></listitem>
+      <listitem><para><filename>ltslog.dll</filename></para></listitem>
+    </itemizedlist>
+    <para>
+      Whenever <filename>jedit.exe</filename> is executed (either directly or
+      indirectly through a call to <filename>jedinit.exe</filename>),
+      jEditLauncher checks to see if it is properly installed. If it is not,
+      it will offer to install itself. If you agree, you will then be asked to
+      supply the path to a Java application loader. The directory you choose should
+      contain <filename>javaw.exe</filename>, which the installer uses as a
+      default; you can change the application loader later with a call to
+      <filename>jedinit.exe</filename>.
+    </para>
+</simplesect>
+
+<!--
+<simplesect>
+  <title>Working with multiple jEdit installations</title>
+  <para>
+    At the present time, jEditLauncher is supported only for version
+    3.2 and later versions of jEdit. Future versions will target
+    specific versions of jEdit so that users can select between a
+    <quote>final</quote> version or a later development version as the
+    target version for purposes of scripting and the context menu handler.
+    Each version of jEditLauncher should be installed in the same directory
+    as the version of jEdit to which it relates.
+ -->
+    <!--
+    The jEdit project has a rapid turnaround time on new versions, and there
+    is an active community of jEdit users who are willing to try out new
+    features in development versions. As a result, many users have more than
+    one version of the application installed at the same time. The
+    jEditLauncher package accomodates this unusual circumstance. Both
+    <filename>jedit.exe</filename> and <filename>jedinint.exe</filename> are
+    designed to target a specific version of jEdit.
+
+    A set of jEditLauncher
+    files will work only with one version of jEdit. For the sake of good
+    order, you should keep the jEditLauncher files that accompany a
+    particular version of jEdit in the same directory as the executable
+    archive file, <filename>jedit.jar</filename>, for that version. -->
+<!--
+  </para>
+ -->
+  <!--
+  <para>
+    There is one feature of jEditLauncher - the context menu handler - that
+    attaches itself to the Windows shell such that only one jEdit version
+    can be targeted. In addition, the use of jEditLauncher as a scripting
+    object would generally target a single version. If the installation
+    program detects more than one installed version of jEdit (including the
+    version being installed), it requires you to select a
+    <quote>primary</quote> version of jEdit that will be invoked by the
+    context menu handler and by scripting objects. Likewise, if there is
+    more than one installed version of jEdit remaining after a version in
+    uninstalled, the uninstall routine will offer a choice between the
+    remaining versions. Whenever there is only one installed version,
+    jEditLauncher adopts that version as the primary version without user
+    intervention.
+  </para>
+
+  <para>
+    The easiest way to change the primary version of jEdit among existing
+    installed versions is to reinstall any version in the directory where it
+    is currently situated, and then select the new primary version when
+    prompted by the installation routine.
+  </para>
+
+  <para>
+    If an installation changes the primary version of jEdit, it may be
+    necessary to reboot to complete an installation. This is because the
+    context menu handler remains in memory for some time after it is used
+    on some version of Windows, so that the file containing the COM component
+    cannot be overwritten by a new version.  Like other Windows programs,
+    jEditLauncher will complete the installation automatically upon reboot.
+    It is best to reboot right away after installation if you are requested
+    to do so.
+  </para>
+
+  <para>
+    If you install a version of jEdit that is already installed to a
+    different directory, the installation routine will update installation
+    data and effectively ignore the original installation. You can then delete
+    the <quote>old</quote> copy manually.  It may be necessary to
+    log out and log in again, or even reboot, to delete the old version of
+    the COM component.
+  </para>
+</simplesect>
+  -->
+
+<simplesect>
+  <title>Shortcuts</title>
+  <para>
+    The jEditLauncher installation routine creates shortcuts for the
+    <quote>primary</quote> version of jEdit on the Windows desktop, in the
+    Start menu and in the Programs menu. Any of these may be deleted
+    manually without compromising the performance of jEdit or jEditLauncher.
+  </para>
+</simplesect>
+
+<simplesect>
+  <title>Logging</title>
+  <para>
+    Time-stamped logging of application events is currently provided for
+    the installation routine and for direct calls to
+    <filename>jedit.exe</filename>.  Installation logging data are
+    written to <filename>install.log</filename>, and log entries for
+    <filename>jedit.exe</filename> and the launcher component,
+    <filename>jeditsrv.exe</filename>, are written to
+    <filename>jelaunch.log</filename>.  Both files are located in the
+    directory in which jEdit and jEditLauncher are installed.
+  </para>
+  <para>
+    To assist with debugging and other troubleshooting, log entries
+    are cumulative and the log files are not deleted each time the
+    logging facility is activated.  The log files themeselves may be
+    deleted manually without impairing performance.
+  </para>
+</simplesect>
+
+
+<simplesect>
+  <title>Uninstalling jEdit and jEditLauncher</title>
+  <para>
+    There are three ways to uninstall jEdit and  jEditLauncher.
+  </para>
+
+  <itemizedlist>
+    <listitem>
+      <para>
+        First, you can run <filename>unlaunch.exe</filename> in the
+        jEdit installation directory.
+        <!-- This will
+        uninstall the version of jEdit residing in the same directory as the
+        version of <filename>jedit.exe</filename> that you invoke. -->
+      </para>
+    </listitem>
+    <listitem>
+      <para>
+        Second, you can choose <guilabel>Uninstall jEdit</guilabel> in the
+        <guilabel>jEdit</guilabel> section of the Programs menu. <!-- This will
+        uninstall the <quote>primary</quote> version of jEdit (and will
+        designate a new primary version if any versions remain). -->
+      </para>
+    </listitem>
+    <listitem>
+      <para>
+        Third, you can choose the uninstall option for jEdit in the Control
+        Panel's Add/Remove Programs applet.
+        <!-- This allows you to specify
+        unambiguously the version of jEdit that you wish to remove. -->
+      </para>
+    </listitem>
+  </itemizedlist>
+
+  <para>
+    Each of these options will deactivate jEditLauncher and delete all files
+    in jEdit's installation directory. As a safeguard, jEditLauncher
+    displays a warning window and requires the user to confirm an uninstall operation.
+    Because the user's settings directory can be set and changed from
+    one jEdit session to anpother, user settings files must be
+    deleted manually.
+  </para>
+
+  <para>
+    To deactivate jEditLauncher without deleting any files, run
+    <filename>jedit /u</filename> from any command prompt where the jEdit
+    installation directory is in the serach path. This will remove the
+    entries for jEditLauncher from the Windows registry, and disable the
+    context menu handler, and the automatic launching and scripting
+    capabilities. The package can reactivated by executing
+    <filename>jedit.exe</filename> again, and jEdit can be started in the
+    same manner as any other Java application on your system.
+  </para>
+<!--
+  <para>
+    The uninstall routine does not selectively delete installed files
+    but instead tries to delete all files in the directory in which jEdit
+    is installed.  As a safeguard, jEditLauncher displays a warning window
+    and requires the user to confirm an uninstall operation.  If you
+    have files in the jEdit directory tree that you wish to save
+    following an uninstall, you should move them before you start the
+    uninstall operation.
+  </para>
+
+  <para>
+    Following an uninstall operation, it will usually be necessary to
+    reboot to complete the procedure.  If a reboot is necessary you will
+    be asked to confirm a reboot at the end of the uninstall procedure.
+  </para>
+
+  <para>
+    The uninstall operation does not affect files or directories
+    containing individual user settings for jEdit. Normally these can be
+    deleted manually.
+  </para>
+-->
+</simplesect>
+<!-- In book or book/part format, new chapter will start here -->
+
+<simplesect>
+  <title>Acknowledgements</title>
+  <para>
+    The original edit server client code in jEditLauncher borrowed liberally
+    from the jEditOpener application written by Joe Laffey and Stefan Radig.
+    It has been replaced with code from the Win32 SDK.
+    The Perl scripting example in this guide is adapted from code written by
+    Hans-Joachim Wüllner. The author is grateful to those who tested and
+    provided feedback on earlier versions, especially Joe Polanik.
+  </para>
+</simplesect>
+
+<simplesect>
+  <title>Source Code</title>
+  <para>
+    Source code for jEditLauncher is made available separately from the
+    package itself. As one might expect, the source code for the package
+    relies heavily on template classes and headers for COM objects that are
+    supplied with Microsoft's Visual C++ 6.0 product. Because of licensing
+    restrictions, those files are not part of the source code distribution.
+    The executables were compiled using the Microsoft Visual Studio 6.0 IDE.
+    Makefiles generated by the IDE are included, They are written for
+    Microsoft's <application>NMAKE</application> utility and are not
+    compatible with POSIX make syntax.
+  </para>
+
+  <para>
+    The source code distribution should be sufficient to allow for
+    compilation of jEditLauncher's four executables file in the Visual
+    Studio IDE. Besides the source for the four executable files, the
+    distribution includes code for a utility for testing the installation
+    module.
+  </para>
+
+  <para>
+      If you are interested in building jEditLauncher from its source code,
+      you should first examine the IDE settings for <quote>Custom
+      Build</quote> to enable or disable (as you choose) automatic
+      registration of the COM component following compilation. The project
+      files will not register the COM component as a context menu handler.
+      You should also modify the directory settings to conform to your own
+      file layout.
+  </para>
+
+  <para>
+    The executables included with this distribution are the
+    <quote>ReleaseMinDependency</quote> build of the COM component and the
+    <quote>Release</quote> build of the other executables.
+  </para>
+
+</simplesect>
+
+<simplesect>
+  <title>Legal notice</title>
+    <para>
+      All source code and software distributed as the jEditLauncher package in
+      which the author holds the copyright is made available under the GNU
+      General Public License (<quote>GPL</quote>). A copy of the GPL is
+      included in the file <filename>COPYING.txt</filename> included with jEdit.
+    </para>
+
+    <para>
+      Notwithstanding the terms of the General Public License, the author
+      grants permission to compile and link object code generated by the
+      compilation of this program with object code and libraries that are not
+      subject to the GNU General Public License, provided that the executable
+      output of such compilation shall be distributed with source code on
+      substantially the same basis as the jEditLauncher package of which this
+      source code and software is a part. By way of example, a distribution
+      would satisfy this condition if it included a working makefile for any
+      freely available make utility that runs on the Windows family of
+      operating systems. This condition does not require a licensee of this
+      software to distribute any proprietary software (including header files
+      and libraries) that is licensed under terms prohibiting or limiting
+      redistribution to third parties.
+    </para>
+
+    <para>
+      The purpose of this specific permission is to allow a user to link files
+      contained or generated by the source code with library and other files
+      licensed to the user by Microsoft or other parties, whether or not that
+      license conforms to the requirements of the GPL.  This permission
+      should not be construed to expand the terms of any license for any
+      source code or other materials used in the creation of
+      jEditLauncher.
+    </para>
+
+    <para>
+      The software is provided <quote>as is</quote>, without warranty of any
+      kind, express or implied, including but not limited to the warranties of
+      merchantability, fitness for a particular purpose and noninfringement.
+      In no event shall the author or any other contributor be liable for any
+      claim, damages or other liability, whether in an action of contract,
+      tort or otherwise, arising from, out of or in connection with the
+      software or the use of or other dealings in the software.
+    </para>
+
+    <para>
+      Permission is granted to copy, distribute and/or modify this guide
+      under the terms of the GNU Free Documentation License, Version 1.1 or
+      any later version published by the Free Software Foundation; with no
+      <quote>Invariant Sections</quote>, <quote>Front-Cover Texts</quote> or
+      <quote>Back-Cover Texts</quote>, each as defined in the license. A copy of
+      the license is included in the file
+      <filename>COPYING.DOC.txt</filename> included with jEdit.
+    </para>
+
+</simplesect>
+
+<simplesect>
+  <title>History</title>
+
+  <itemizedlist>
+    <listitem>
+      <para>version 4.0</para>
+      <itemizedlist>
+        <listitem>
+          <para>
+            Introduced logging for launcher module.
+          </para>
+        </listitem>
+        <listitem>
+          <para>
+            Revised installation module to accommodate new version and
+            import prior version's settings.
+          </para>
+        </listitem>
+        <listitem>
+          <para>
+            Added binary protocol for jEdit 4.0pre4 EditServer; launcher
+            remains backwards compatible with earlier versions.
+          </para>
+        </listitem>
+      </itemizedlist>
+    </listitem>
+    <listitem>
+      <para>version 3.2.2</para>
+      <itemizedlist>
+        <listitem>
+          <para>
+            Fixed bug that failed to write <quote>Working Directory</quote>
+            registry entry.
+          </para>
+        </listitem>
+        <listitem>
+          <para>
+            Added logging capability in separate executable module.
+          </para>
+        </listitem>
+        <listitem>
+          <para>
+            Modified label text in parameter setting dialog.
+          </para>
+        </listitem>
+        <listitem>
+          <para>
+            Documentation ported from DocBook SGML to DocBook XML.
+          </para>
+        </listitem>
+      </itemizedlist>
+    </listitem>
+    <listitem>
+      <para>version 3.2.1</para>
+      <itemizedlist>
+        <listitem>
+          <para>
+            Changed default parameters for command line to run
+            Java interpreter with -jar option.
+          </para>
+        </listitem>
+      </itemizedlist>
+    </listitem>
+    <listitem>
+      <para>version 3.2 final</para>
+      <itemizedlist>
+        <listitem>
+          <para>
+            Reversed execution flag in unlaunch.exe to fix bug.
+          </para>
+        </listitem>
+        <listitem>
+          <para>
+            Fixed bug that prevented zero-length files from being loaded
+            by launcher.exe under Windows NT (workaround for bug in
+            IShellLink::Resolve()).
+          </para>
+        </listitem>
+        <listitem>
+          <para>
+            Added dialog to installation module to allow users to retain
+            command line parameters from existing version.
+          </para>
+        </listitem>
+      </itemizedlist>
+    </listitem>
+    <listitem>
+      <para>version 3.2, release 3</para>
+      <itemizedlist>
+        <listitem>
+          <para>
+            Added <filename>unlaunch.exe</filename> to package and
+            redirected uninstall shortcuts to this file.
+          </para>
+        </listitem>
+        <listitem>
+          <para>
+            Fixed bug in script writing engine to conform to new
+            EditServer.handleClient() API in jEdit3.2pre7.
+          </para>
+        </listitem>
+      </itemizedlist>
+    </listitem>
+    <listitem>
+      <para>version 3.2, release 2</para>
+      <itemizedlist>
+        <listitem>
+          <para>
+            Replaced in-process COM server with out-of-process server
+            running in its own process to queue file and script requests
+            and remove duplicate requests to launch jEdit
+          </para>
+        </listitem>
+        <listitem>
+          <para>
+            Separated context menu handler from other components; this
+            memory-resident component need not be replaced in subsequent
+            installations.
+          </para>
+        </listitem>
+        <listitem>
+          <para>
+            Fixed bug in script writer code causing access exceptions
+            when selecting files without extensions.
+          </para>
+        </listitem>
+        <listitem>
+          <para>
+            Fixed bug in installer code calling Windows SDK function not
+            available to all Windows versions.
+          </para>
+        </listitem>
+      </itemizedlist>
+    </listitem>
+    <listitem>
+      <para>version 3.2</para>
+      <itemizedlist>
+        <listitem>
+          <para>
+            Replaced routine for sending data to EditServer with
+            classes encapsulating socket connection and script writing
+            functions.
+          </para>
+        </listitem>
+        <listitem>
+          <para>
+            Added custom waitable timer to allow desktop repaint while
+            jEdit is loading.
+          </para>
+        </listitem>
+        <listitem>
+          <para>
+            Added <function>RunScript()</function>,
+            <function>EvalScript()</function> and
+            <function>RunDiff</function> API.
+          </para>
+        </listitem>
+        <listitem>
+          <para>
+            Miscellaneous bug fixes in installer routine.
+          </para>
+        </listitem>
+        <listitem>
+          <para>
+            Disabled full uninstallation routine pending integration
+            with jEdit.
+          </para>
+        </listitem>
+      </itemizedlist>
+    </listitem>
+    <listitem>
+      <para>version 3.1</para>
+      <itemizedlist>
+        <listitem>
+          <para>
+            Changed versioning to conform to current jEdit version.
+          </para>
+        </listitem>
+        <listitem>
+          <para>
+            Modified COM component to expand wild-card characters
+            when [jEdit.jEditLauncher].OpenFiles() is called or when
+            jedit.exe is called with multiple arguments.
+          </para>
+        </listitem>
+        <listitem>
+          <para>
+            Added custom install/uninstall facility integrated with jEdit Java
+            installer, permitting multiple installations of different
+            versions of jEdit and user selection of <quote>primary</quote>
+            version for purposes of context menu handler, scripting and
+            shell shortcuts.
+          </para>
+        </listitem>
+        <listitem>
+          <para>
+            Revised documentation to describe new features.
+          </para>
+        </listitem>
+      </itemizedlist>
+    </listitem>
+    <listitem>
+      <para>version 1.0</para>
+      <itemizedlist>
+        <listitem>
+          <para>
+            Added dialog interface for setting command line parameters.
+          </para>
+        </listitem>
+        <listitem>
+          <para>
+            Added automatic registration of COM component and uninstall
+            utility.
+          </para>
+        </listitem>
+        <listitem>
+          <para>
+            Change persistence routine to store and retreive jEdit
+            parameters in the Windows registry.
+          </para>
+        </listitem>
+        <listitem>
+          <para>
+            Added automatic recognition of location of edit server
+            information file generated by jEdit.
+          </para>
+        </listitem>
+        <listitem>
+          <para>
+            Added additional error reporting.
+          </para>
+        </listitem>
+        <listitem>
+          <para>
+            Revised documentation and ported primary format to DocBook.
+          </para>
+        </listitem>
+      </itemizedlist>
+    </listitem>
+
+    <listitem>
+      <para>
+        version 1.0beta3
+      </para>
+      <itemizedlist>
+        <listitem>
+          <para>
+            Removed numerous calls to 32-bit functions to enable operation on
+            Windows 95/98/Me.
+          </para>
+        </listitem>
+        <listitem>
+          <para>
+            Revised registration/unregistration routine to include
+            context menu handler; uninstal.vbs eliminated as unnecessary.
+          </para>
+        </listitem>
+        <listitem>
+        <para>
+          Added JEDIT_SERVER_FILE to install script; script now reads
+          existing environment variables and displays them as default
+          values.
+        </para>
+        </listitem>
+        <listitem>
+        <para>
+          Expanded readme file.
+        </para>
+        </listitem>
+        <listitem>
+        <para>
+          Added express license terms to prinicpal source code files.
+        </para>
+        </listitem>
+      </itemizedlist>
+    </listitem>
+
+    <listitem>
+      <para>
+        version 1.0beta2
+      </para>
+      <itemizedlist>
+        <listitem>
+          <para>
+            Removed calls to WinNT/2000 specific functions
+            in Launch_jEdit().
+          </para>
+        </listitem>
+        <listitem>
+          <para>
+            Revised menu code to use IContextMenu interface only,
+            so that users with <filename>shell32.dll</filename>
+            versions below 4.71 could have a fully functioning context
+            menu handler.
+          </para>
+        </listitem>
+        <listitem>
+          <para>
+            Revised environment variables to conform more closely with
+            variable used by jEditOpener.
+          </para>
+        </listitem>
+        <listitem>
+          <para>
+            Revised jeditme client to launch jEdit when called without
+            parameters; it now also displays the jEdit icon.
+          </para>
+        </listitem>
+        <listitem>
+          <para>
+            Revised example scripts.
+          </para>
+        </listitem>
+      </itemizedlist>
+    </listitem>
+    <listitem>
+      <para>
+        version1.0beta1
+      </para>
+      <itemizedlist>
+        <listitem>
+          <para>
+            Initial development release.
+          </para>
+        </listitem>
+      </itemizedlist>
+    </listitem>
+
+  </itemizedlist>
+
+</simplesect>
+
+<simplesect>
+  <title>Feedback</title>
+  <para>
+    Comments, bug reports and requests for enhancements are most welcome.
+    They may be emailed to the <ulink
+    url="mailto:jgellene@nyc.rr.com">author</ulink> or posted to the
+    jedit-users mailing list. The mailing list is the preferred destination
+    because it allows other users and developers to read and respond to
+    comments. Information about the mailing list may be obtained from the
+    <ulink url="http://www.jedit.org">jEdit web site</ulink>.
+  </para>
+</simplesect>

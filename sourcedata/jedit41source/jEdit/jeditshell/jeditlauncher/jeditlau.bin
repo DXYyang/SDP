@@ -1,0 +1,11 @@
+HKCR
+{
+	NoRemove AppID
+	{
+		ForceRemove {F5132901-5C16-42F2-985A-6D988DAA6601} = s 'jeditlauncher'
+		ForceRemove 'jeditsrv.exe'
+		{
+			val AppID = s {F5132901-5C16-42F2-985A-6D988DAA6601}
+		}
+	}
+}

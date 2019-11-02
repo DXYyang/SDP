@@ -1,0 +1,12 @@
+# Microsoft Developer Studio Generated Dependency File, included by jinit.mak
+
+.\jinit.c : \
+	"h:\program files\microsoft platform sdk\include\basetsd.h"\
+	"h:\program files\microsoft platform sdk\include\tvout.h"\
+	{$(INCLUDE)}"guiddef.h"\
+	
+
+.\jinit.rc : \
+	".\jeditshell.ico"\
+	".\resource.h"\
+	

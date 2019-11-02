@@ -1,0 +1,2 @@
+Main-Class: lucli.Lucli
+Class-Path: lib/jline.jar lib/lucene.jar

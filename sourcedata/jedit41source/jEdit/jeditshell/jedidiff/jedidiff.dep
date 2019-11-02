@@ -1,0 +1,11 @@
+# Microsoft Developer Studio Generated Dependency File, included by jedidiff.mak
+
+.\jedidiff.c : \
+	"..\jeditlauncher\jeditlauncher.h"\
+	"..\jeditlauncher\jeditlauncher_i.c"\
+	"h:\program files\microsoft platform sdk\include\basetsd.h"\
+	"h:\program files\microsoft platform sdk\include\guiddef.h"\
+	"h:\program files\microsoft platform sdk\include\propidl.h"\
+	"h:\program files\microsoft platform sdk\include\tvout.h"\
+	"h:\program files\microsoft platform sdk\include\winefs.h"\
+	

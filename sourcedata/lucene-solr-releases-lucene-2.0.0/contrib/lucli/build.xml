@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+
+<project name="lucli" default="default">
+
+  <description>
+    Lucene Command Line Interface
+  </description>
+
+
+  <path id="additional.dependencies">
+    <pathelement location="lib/jline.jar"/>
+  </path>
+
+  <pathconvert property="project.classpath"
+               targetos="unix"
+               refid="additional.dependencies"
+  />
+
+  <property name="src.dir" location="src"/>
+
+
+  <import file="../contrib-build.xml"/>
+
+  <target name="jar" depends="compile" description="Create JAR">
+    <jar jarfile="${build.dir}/${final.name}.jar"
+         basedir="${build.dir}/classes/java"
+         manifest="META-INF/MANIFEST.MF"
+    />
+  </target>
+</project>
